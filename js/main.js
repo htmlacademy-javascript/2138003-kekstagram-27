@@ -1,52 +1,12 @@
-function getRandomNumber(min, max){
-  if(min < 0 || max < 0 || max <= min){
-    return NaN;
-  }
-
-  return Math.floor(min + Math.random() * (max + 1 - min));
-}
-
-function createRandomIdFromRangeGenerator (min, max) {
-  const previousValues = [];
-
-  return function () {
-    let currentValue = getRandomNumber(min, max);
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomNumber(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-}
-
-const checkStringLength = (string, length) => string.length <= length;
-
-checkStringLength(0, 140);
-
-const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
-
-function createIdGenerator () {
-  let lastGeneratedId = 0;
-
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-}
-
-const getPhotoId = createIdGenerator();
-const getDescription = createIdGenerator();
-const getPhotoIdGeneration = createIdGenerator();
-const getPhotoAddress = (index) => `photos/${index}.jpg`;
 const MIN_LIKE = 25;
 const MAX_LIKE = 200;
-const LIKES = () => getRandomNumber(MIN_LIKE, MAX_LIKE);
 const MIN_ID_COMMENT = 1;
 const MAX_ID_COMMENT = 500;
-const getCommentId = createRandomIdFromRangeGenerator(MIN_ID_COMMENT, MAX_ID_COMMENT);
-const getAvatarAddress = () => `img/avatar-${getRandomNumber(1, 6)}.svg`;
-const SIMILAR_COUNT_COMMENT = () => getRandomNumber(1, 5);
 const SIMILAR_COUNT_IMAGE = 25;
+const MIN_ID_AVATAR_ADDRESS = 1;
+const MAX_ID_AVATAR_ADDRESS = 6;
+const MIN_SIMILAR_COMMENT = 1;
+const MAX_SIMILAR_COMMENT = 5;
 
 const DESCRIPTION = ['Летний пляж',
   'Где-то там есть пляж',
@@ -84,20 +44,62 @@ const MESSAGE = ['Всё отлично!',
 
 const NAME = ['Артём','Михаил','Константин','Елизавета','Алёна','Данил','Игорь','Саша','Артур','Мария'];
 
+const getRandomNumber = (min, max) => {
+  if(min < 0 || max < 0 || max <= min){
+    return NaN;
+  }
+  return Math.floor(min + Math.random() * (max + 1 - min));
+};
+
+const createRandomIdFromRangeGenerator = (min, max) => {
+  const previousValues = [];
+
+  return function () {
+    let currentValue = getRandomNumber(min, max);
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomNumber(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+};
+
+const checkStringLength = (string, length) => string.length <= length;
+
+checkStringLength(0, 140);
+
+const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
+
+const createIdGenerator = () => {
+  let lastGeneratedId = 0;
+
+  return function () {
+    lastGeneratedId += 1;
+    return lastGeneratedId;
+  };
+};
+
+const getPhotoId = createIdGenerator();
+const getDescription = createIdGenerator();
+const getPhotoIdGeneration = createIdGenerator();
+const getPhotoAddress = (index) => `photos/${index}.jpg`;
+const getCommentId = createRandomIdFromRangeGenerator(MIN_ID_COMMENT, MAX_ID_COMMENT);
+const getAvatarAddress = (min,max) => `img/avatar-${getRandomNumber(min, max)}.svg`;
+
 const COMMENT = () => ({
-  commentsId: getCommentId(),
+  id: getCommentId(),
   message:getRandomArrayElement(MESSAGE),
-  avatar:getAvatarAddress(),
+  avatar:getAvatarAddress(MIN_ID_AVATAR_ADDRESS, MAX_ID_AVATAR_ADDRESS),
   name:getRandomArrayElement(NAME)
 });
 
-const similarComment = () => Array.from({length: SIMILAR_COUNT_COMMENT()}, COMMENT);
+const similarComment = () => Array.from({length: getRandomNumber(MIN_SIMILAR_COMMENT, MAX_SIMILAR_COMMENT)}, COMMENT);
 
 const image = () => ({
   id: getPhotoId(),
-  url: getPhotoAddress(getPhotoIdGeneration()),
+  url: getPhotoAddress(getPhotoIdGeneration(MIN_ID_AVATAR_ADDRESS, MAX_ID_AVATAR_ADDRESS)),
   description: DESCRIPTION[getDescription() - 1],
-  likes: LIKES(),
+  likes: getRandomNumber(MIN_LIKE, MAX_LIKE),
   comments: similarComment()
 });
 
