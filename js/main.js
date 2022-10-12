@@ -86,14 +86,14 @@ const getPhotoAddress = (index) => `photos/${index}.jpg`;
 const getCommentId = createRandomIdFromRangeGenerator(MIN_ID_COMMENT, MAX_ID_COMMENT);
 const getAvatarAddress = (min,max) => `img/avatar-${getRandomNumber(min, max)}.svg`;
 
-const COMMENT = () => ({
+const comment = () => ({
   id: getCommentId(),
   message:getRandomArrayElement(MESSAGE),
   avatar:getAvatarAddress(MIN_ID_AVATAR_ADDRESS, MAX_ID_AVATAR_ADDRESS),
   name:getRandomArrayElement(NAME)
 });
 
-const similarComment = () => Array.from({length: getRandomNumber(MIN_SIMILAR_COMMENT, MAX_SIMILAR_COMMENT)}, COMMENT);
+const similarComment = () => Array.from({length: getRandomNumber(MIN_SIMILAR_COMMENT, MAX_SIMILAR_COMMENT)}, comment);
 
 const image = () => ({
   id: getPhotoId(),
