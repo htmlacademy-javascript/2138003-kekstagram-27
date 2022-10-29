@@ -72,6 +72,6 @@ const image = () => ({
   comments: similarComment()
 });
 
-const similarImage = Array.from({length: SIMILAR_COUNT_IMAGE}, image);
+const similarImage = () => Array.from({length: SIMILAR_COUNT_IMAGE}, image);
 
 export {similarImage};
