@@ -11,19 +11,19 @@ const commentCount = bigPicture.querySelector('.social__comment-count');
 const commentLoader = bigPicture.querySelector('.comments-loader');
 const cancel = bigPicture.querySelector('.big-picture__cancel');
 
-const bigPhoto = (object) =>{
+const bigPhoto = (picture) =>{
   bigPicture.classList.remove('hidden');
   body.classList.add('modal-open');
   commentCount.classList.add('hidden');
   commentLoader.classList.add('hidden');
 
-  bigPreview.src = object.url;
-  bigLikes.textContent = object.likes;
-  bigComments.textContent = object.comments.length;
-  bigDescription.textContent = object.description;
+  bigPreview.src = picture.url;
+  bigLikes.textContent = picture.likes;
+  bigComments.textContent = picture.comments.length;
+  bigDescription.textContent = picture.description;
   const commentListFragment = document.createDocumentFragment();
 
-  object.comments.forEach(({avatar,name,message}) => {
+  picture.comments.forEach(({avatar,name,message}) => {
     const newComment = liComments.cloneNode(true);
     const imgComments = newComment.querySelector('.social__picture');
     const textComments = newComment.querySelector('.social__text');
