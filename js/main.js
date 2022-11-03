@@ -1,6 +1,9 @@
 import {similarImage} from './data.js';
-import {photos} from './thumbnail.js';
+import {miniPhotos} from './thumbnail.js';
+import {bigPhoto} from './fullPhoto.js';
 
 const createImage = similarImage();
 
-photos(createImage);
+miniPhotos(createImage);
+
+bigPhoto(createImage[1]);

@@ -2,9 +2,10 @@ const pictureContainers = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content;
 
 
-const photos = (data) => {
+const miniPhotos = (thumbnails) => {
   const pictureListFragment = document.createDocumentFragment();
-  data.forEach(({url,likes,comments}) => {
+
+  thumbnails.forEach(({url,likes,comments}) => {
 
     const thumbnailsPicture = pictureTemplate.cloneNode(true);
     thumbnailsPicture.querySelector('.picture__img').src = url;
@@ -15,4 +16,4 @@ const photos = (data) => {
   pictureContainers.appendChild(pictureListFragment);
 };
 
-export {photos};
+export {miniPhotos};
