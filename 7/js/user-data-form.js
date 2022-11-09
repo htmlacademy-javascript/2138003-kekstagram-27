@@ -1,5 +1,7 @@
 import { checkStringLength, isEscapeKey } from './util.js';
-
+const MAX_LENGTH_COMMENT = 140;
+const MAX_COUNT_HASHTAGS = 5;
+const MAX_LENGTH_HASHTAG = 20;
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('#upload-select-image');
 const fileField = document.querySelector('#upload-file');
@@ -8,9 +10,6 @@ const commentInput = uploadForm.querySelector('.text__description');
 const form = document.querySelector('.img-upload__form');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const cancelButtonRenderPicture = form.querySelector('#upload-cancel');
-const MAX_LENGTH_COMMENT = 140;
-const MAX_COUNT_HASHTAGS = 5;
-const MAX_LENGTH_HASHTAG = 20;
 const simbolHashtag = /^#[A-Za-zА-яа-яЁё0-9]{1,19}$/;
 const validHashtag = (hashtag) => simbolHashtag.test(hashtag);
 
@@ -37,12 +36,22 @@ const validateCountHashtag = (value) => value.length <= MAX_COUNT_HASHTAGS;
 
 const validateTags = (value) => {
   const hashtagsArray = value.trim().split(' ').filter((tag) => tag.trim().length);
-  return validateCountHashtag(hashtagsArray) && validateDoubleHashtag(hashtagsArray) && hashtagsArray.every(validateSymbolsHashtag);
+  return hashtagsArray.every(validateSymbolsHashtag);
+};
+const validateTagDouble = (value) => {
+  const hashtagsArray = value.trim().split(' ').filter((tag) => tag.trim().length);
+  return validateDoubleHashtag(hashtagsArray);
+};
+const validateTagCountHashtag = (value) => {
+  const hashtagsArray = value.trim().split(' ').filter((tag) => tag.trim().length);
+  return validateCountHashtag(hashtagsArray);
 };
 
 const validateComment = (value) => checkStringLength(value, MAX_LENGTH_HASHTAG);
 
-pristine.addValidator(hashtagInput, validateTags, `Хэштег начинается с #. Разрешено использовать не более ${MAX_COUNT_HASHTAGS} хештегов. Максимальная длина хештега ${MAX_LENGTH_HASHTAG} символов.`);
+pristine.addValidator(hashtagInput, validateTags, `Хэштег начинается с #. Максимальная длина хештега ${MAX_LENGTH_HASHTAG} символов.`);
+pristine.addValidator(hashtagInput, validateTagCountHashtag, `Разрешено использовать не более ${MAX_COUNT_HASHTAGS} хештегов.`);
+pristine.addValidator(hashtagInput, validateTagDouble, 'Хэштеги не должны дублироваться');
 pristine.addValidator(commentInput, validateComment, `Максимальная длина комментария не более ${MAX_LENGTH_COMMENT} символов.`);
 
 const checkingForFocus = () => document.activeElement === hashtagInput || document.activeElement === commentInput;
@@ -76,11 +85,13 @@ const oncloselButtonClick = () => {
 };
 
 const onFormSubmit = (evt) => {
-  evt.preventDefault();
+
   const isValid = pristine.validate();
-  form.disabled = !isValid;
+  if(!isValid){
+    evt.preventDefault();
+  }
 };
 
 fileField.addEventListener('change', onFileInputChange);
 cancelButtonRenderPicture.addEventListener('click', oncloselButtonClick);
-form.addEventListener('input', onFormSubmit);
+form.addEventListener('submit', onFormSubmit);
