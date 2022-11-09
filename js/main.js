@@ -1,9 +1,10 @@
-import {similarImage} from './data.js';
-import {miniPhotos} from './thumbnail.js';
-import {bigPhoto} from './fullPhoto.js';
+import { similarImage } from './data.js';
+import { miniPhotos } from './thumbnail.js';
+//import { renderBigPhoto } from './full-photo.js';
+import './user-data-form.js';
 
 const createImage = similarImage();
 
 miniPhotos(createImage);
 
-bigPhoto(createImage[1]);
+//renderBigPhoto(createImage[1]);
