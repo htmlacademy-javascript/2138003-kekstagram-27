@@ -44,7 +44,7 @@ const MESSAGE = ['Всё отлично!',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 
-const names = ['Артём','Михаил','Константин','Елизавета','Алёна','Данил','Игорь','Саша','Артур','Мария'];
+const NAME = ['Артём','Михаил','Константин','Елизавета','Алёна','Данил','Игорь','Саша','Артур','Мария'];
 
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
@@ -59,7 +59,7 @@ const comment = () => ({
   id: getCommentId(),
   message:getRandomArrayElement(MESSAGE),
   avatar:getAvatarAddress(MIN_ID_AVATAR_ADDRESS, MAX_ID_AVATAR_ADDRESS),
-  name:getRandomArrayElement(names)
+  name:getRandomArrayElement(NAME)
 });
 
 const similarComment = () => Array.from({length: getRandomNumber(MIN_SIMILAR_COMMENT, MAX_SIMILAR_COMMENT)}, comment);
