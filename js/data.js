@@ -7,8 +7,8 @@ const MAX_ID_COMMENT = 500;
 const SIMILAR_COUNT_IMAGE = 25;
 const MIN_ID_AVATAR_ADDRESS = 1;
 const MAX_ID_AVATAR_ADDRESS = 6;
-const MIN_SIMILAR_COMMENT = 1;
-const MAX_SIMILAR_COMMENT = 5;
+const MIN_SIMILAR_COMMENT = 6;
+const MAX_SIMILAR_COMMENT = 8;
 
 const DESCRIPTION = ['Летний пляж',
   'Где-то там есть пляж',
