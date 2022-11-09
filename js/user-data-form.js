@@ -49,8 +49,8 @@ const validateTagCountHashtag = (value) => {
 
 const validateComment = (value) => checkStringLength(value, MAX_LENGTH_HASHTAG);
 
-pristine.addValidator(hashtagInput, validateTags, `Хэштег начинается с #. Максимальная длина хештега ${MAX_LENGTH_HASHTAG} символов.`);
-pristine.addValidator(hashtagInput, validateTagCountHashtag, `Разрешено использовать не более ${MAX_COUNT_HASHTAGS} хештегов.`);
+pristine.addValidator(hashtagInput, validateTags, `Хэштег должен начинаться с #. Максимальная длина хэштега ${MAX_LENGTH_HASHTAG} символов.`);
+pristine.addValidator(hashtagInput, validateTagCountHashtag, `Разрешено использовать не более ${MAX_COUNT_HASHTAGS} хэштегов.`);
 pristine.addValidator(hashtagInput, validateTagDouble, 'Хэштеги не должны дублироваться');
 pristine.addValidator(commentInput, validateComment, `Максимальная длина комментария не более ${MAX_LENGTH_COMMENT} символов.`);
 
