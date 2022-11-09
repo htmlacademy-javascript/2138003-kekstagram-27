@@ -1,3 +1,4 @@
+import { isEscapeKey } from './util.js';
 
 const body = document.querySelector('body');
 const bigPicture = document.querySelector('.big-picture');
@@ -9,9 +10,9 @@ const bigComments = bigPicture.querySelector('.comments-count');
 const bigDescription = bigPicture.querySelector('.social__caption');
 const commentCount = bigPicture.querySelector('.social__comment-count');
 const commentLoader = bigPicture.querySelector('.comments-loader');
-const cancel = bigPicture.querySelector('.big-picture__cancel');
+const cancelButtonBigPhoto = bigPicture.querySelector('.big-picture__cancel');
 
-const bigPhoto = (picture) =>{
+const renderBigPhoto = (picture) =>{
   bigPicture.classList.remove('hidden');
   body.classList.add('modal-open');
   commentCount.classList.add('hidden');
@@ -38,16 +39,16 @@ const bigPhoto = (picture) =>{
 
 };
 
-cancel.addEventListener('click', () => {
+cancelButtonBigPhoto.addEventListener('click', () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
 });
 
 document.addEventListener('keydown', (evt) => {
-  if (evt.keyCode === 27) {
+  if (isEscapeKey(evt)) {
     bigPicture.classList.add('hidden');
     body.classList.remove('modal-open');
   }
 });
 
-export {bigPhoto};
+export {renderBigPhoto};

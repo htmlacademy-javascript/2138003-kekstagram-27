@@ -27,6 +27,8 @@ const createIdGenerator = () => {
   };
 };
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 const checkStringLength = (string, length) => string.length <= length;
 
-export {getRandomNumber, createRandomIdFromRangeGenerator, createIdGenerator, checkStringLength};
+export {getRandomNumber, createRandomIdFromRangeGenerator, createIdGenerator, checkStringLength, isEscapeKey };
