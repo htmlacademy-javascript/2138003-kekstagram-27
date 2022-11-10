@@ -28,24 +28,18 @@ const showMore = () => {
   }
   hideButtonShowMore(hidden);
 };
-
-if(spanComment.textContent < bigComments.firstChild.textContent){
-  spanComment.textContent = bigComments.firstChild.textContent;
-}
-
-
 const renderBigPhoto = (picture) =>{
   bigPicture.classList.remove('hidden');
   body.classList.add('modal-open');
-
   bigPreview.src = picture.url;
   bigLikes.textContent = picture.likes;
   bigComments.textContent = picture.comments.length;
   bigDescription.textContent = picture.description;
-  if(bigComments.firstChild.textContent <= spanComment.textContent ){
-    spanComment.textContent = bigComments.firstChild.textContent;
-  }
   const commentListFragment = document.createDocumentFragment();
+
+  if(Number(bigComments.firstChild.textContent) < Number(spanComment.textContent) ){
+    spanComment.textContent = bigComments.lastChild.textContent;
+  }
 
   picture.comments.forEach(({avatar,name,message}) => {
     const newComment = liComments.cloneNode(true);
@@ -60,6 +54,7 @@ const renderBigPhoto = (picture) =>{
 
   selectorComments.innerHTML = '';
   selectorComments.append(commentListFragment);
+
   showMore();
 };
 
