@@ -3,12 +3,12 @@ import {getRandomNumber, createRandomIdFromRangeGenerator, createIdGenerator} fr
 const MIN_LIKE = 25;
 const MAX_LIKE = 200;
 const MIN_ID_COMMENT = 1;
-const MAX_ID_COMMENT = 500;
+const MAX_ID_COMMENT = 50000;
 const SIMILAR_COUNT_IMAGE = 25;
 const MIN_ID_AVATAR_ADDRESS = 1;
 const MAX_ID_AVATAR_ADDRESS = 6;
-const MIN_SIMILAR_COMMENT = 1;
-const MAX_SIMILAR_COMMENT = 5;
+const MIN_SIMILAR_COMMENT = 3;
+const MAX_SIMILAR_COMMENT = 12;
 
 const DESCRIPTION = ['Летний пляж',
   'Где-то там есть пляж',
