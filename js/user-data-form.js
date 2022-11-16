@@ -1,4 +1,7 @@
 import { checkStringLength, isEscapeKey } from './util.js';
+import { resetScale } from './image-scale.js';
+import { resetEffects } from './effects.js';
+
 const MAX_LENGTH_COMMENT = 140;
 const MAX_COUNT_HASHTAGS = 5;
 const MAX_LENGTH_HASHTAG = 20;
@@ -74,6 +77,8 @@ const showForm = () => {
   uploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onEscKeyDown);
+  resetScale();
+  resetEffects();
 };
 
 const onFileInputChange = () => {

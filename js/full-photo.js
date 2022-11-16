@@ -1,6 +1,9 @@
 import { isEscapeKey } from './util.js';
 
+let initialMaximumComment = 5;
+let buttonMaximumComment = 5;
 const ONE_STEP = 5;
+const START_CYCLE_FOR_COMMENT = 0;
 const body = document.querySelector('body');
 const bigPicture = document.querySelector('.big-picture');
 const bigPreview = document.querySelector('.big-picture__img').querySelector('img');
@@ -13,26 +16,32 @@ const commentCount = bigPicture.querySelector('.social__comment-count');
 const buttonLoader = bigPicture.querySelector('.comments-loader');
 const spanComment = commentCount.querySelector('.comments-visible');
 const cancelButtonBigPhoto = bigPicture.querySelector('.big-picture__cancel');
+const numberCurrentComment = parseInt(spanComment.textContent, Number);
 const commentListFragment = document.createDocumentFragment();
-const hidden = () => {if(Number(bigComments.firstChild.textContent) <= Number(spanComment.textContent) ){
-  spanComment.textContent = bigComments.lastChild.textContent;
-  buttonLoader.classList.add('hidden');
-}};
 
-const createComment = (nameComment, indexComment) => {
-  const newComment = liComments.cloneNode(true);
-  const imgComments = newComment.querySelector('.social__picture');
-  const textComments = newComment.querySelector('.social__text');
+const hidden = () => {
+  if(parseInt(bigComments.firstChild.textContent, Number) <= parseInt(spanComment.textContent, Number) ){
+    spanComment.textContent = bigComments.lastChild.textContent;
+    buttonLoader.classList.add('hidden');
+  }
+};
 
-  imgComments.src = nameComment.comments[indexComment].avatar;
-  imgComments.alt = nameComment.comments[indexComment].name;
-  textComments.textContent = nameComment.comments[indexComment].message;
-  commentListFragment.append(newComment);
+const createComment = (nameComment, startIndex, endIndex) => {
+  for(let i = startIndex; i < endIndex; i++){
+    const newComment = liComments.cloneNode(true);
+    const imgComments = newComment.querySelector('.social__picture');
+    const textComments = newComment.querySelector('.social__text');
+
+    imgComments.src = nameComment.comments[i].avatar;
+    imgComments.alt = nameComment.comments[i].name;
+    textComments.textContent = nameComment.comments[i].message;
+    commentListFragment.append(newComment);
+  }
 };
 
 const renderBigPhoto = (picture) =>{
-  bigPicture.classList.remove('hidden');
-  body.classList.add('modal-open');
+  // bigPicture.classList.remove('hidden');
+  // body.classList.add('modal-open');
   selectorComments.innerHTML = '';
 
   bigPreview.src = picture.url;
@@ -42,22 +51,21 @@ const renderBigPhoto = (picture) =>{
 
   hidden();
 
-  for (let i = 0; i < bigComments.textContent && i < ONE_STEP; i++){
-    createComment(picture, i);
+  if(bigComments.textContent < ONE_STEP){
+    initialMaximumComment = bigComments.textContent;
   }
+  createComment(picture, START_CYCLE_FOR_COMMENT, initialMaximumComment);
   selectorComments.innerHTML = '';
   selectorComments.append(commentListFragment);
 
   const onClickUploadCommnent = (evt) => {
     evt.preventDefault();
-    let page = 5;
     if(bigComments.textContent - spanComment.textContent < ONE_STEP){
-      page = bigComments.textContent - spanComment.textContent;
+      buttonMaximumComment = bigComments.textContent - spanComment.textContent;
     }
-    for (let i = parseInt(spanComment.textContent, Number); i < parseInt(spanComment.textContent, Number) + page; i++){
-      createComment(picture, i);
-    }
-    spanComment.textContent = parseInt(spanComment.textContent, Number) + ONE_STEP;
+
+    createComment(picture, numberCurrentComment, numberCurrentComment + buttonMaximumComment);
+    spanComment.textContent = numberCurrentComment + ONE_STEP;
     selectorComments.append(commentListFragment);
     hidden();
   };
