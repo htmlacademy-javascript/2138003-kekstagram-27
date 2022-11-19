@@ -103,3 +103,5 @@ const onFormSubmit = (evt) => {
 fileField.addEventListener('change', onFileInputChange);
 cancelButtonRenderPicture.addEventListener('click', oncloselButtonClick);
 form.addEventListener('submit', onFormSubmit);
+
+export { hideForm };

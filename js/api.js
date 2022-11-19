@@ -1,4 +1,5 @@
 import { showSuccessMessage, showUploadErrorMessage } from './messages.js';
+import { hideForm } from './user-data-form.js';
 
 const getData = (onSuccess, onFail) => {
   fetch('https://27.javascript.pages.academy/kekstagram/data')
@@ -24,7 +25,7 @@ const sendData = (data) => {
   })
     .then(() => {
       showSuccessMessage();
-      //hideForm();
+      hideForm();
     })
     .catch(() => {
       showUploadErrorMessage();
