@@ -5,6 +5,7 @@ import './user-data-form.js';
 import './image-scale.js';
 import './effects.js';
 import { getData } from './api.js';
+import { showErrorAlert } from './util.js';
 
 const createImage = similarImage();
 
@@ -12,6 +13,11 @@ const createImage = similarImage();
 
 getData((data) => {
   miniPhotos(data);
-});
+},
+
+() => {
+  showErrorAlert('Не удалось загрузить изображения.');
+}
+);
 
 renderBigPhoto(createImage[1]);

@@ -1,3 +1,4 @@
+import { showSuccessMessage, showUploadErrorMessage } from './messages.js';
 
 const getData = (onSuccess, onFail) => {
   fetch('https://27.javascript.pages.academy/kekstagram/data')
@@ -8,4 +9,26 @@ const getData = (onSuccess, onFail) => {
     .catch(() => onFail('Произошла ошибка при загрузки данных'));
 };
 
-export { getData };
+const sendData = (data) => {
+  fetch(
+    'https://27.javascript.pages.academy/kekstagram',
+    {
+      method: 'POST',
+      body: data,
+    },
+  ) .then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(`${response.status} ${response.statusText}`);
+  })
+    .then(() => {
+      showSuccessMessage();
+      //hideForm();
+    })
+    .catch(() => {
+      showUploadErrorMessage();
+    });
+};
+
+export { getData, sendData };
