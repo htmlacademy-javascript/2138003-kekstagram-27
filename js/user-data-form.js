@@ -1,6 +1,7 @@
 import { checkStringLength, isEscapeKey } from './util.js';
 import { resetScale } from './image-scale.js';
 import { resetEffects } from './effects.js';
+import { sendData } from './api.js';
 
 const MAX_LENGTH_COMMENT = 140;
 const MAX_COUNT_HASHTAGS = 5;
@@ -50,7 +51,7 @@ const validateTagCountHashtag = (value) => {
   return validateCountHashtag(hashtagsArray);
 };
 
-const validateComment = (value) => checkStringLength(value, MAX_LENGTH_HASHTAG);
+const validateComment = (value) => checkStringLength(value, MAX_LENGTH_COMMENT);
 
 pristine.addValidator(hashtagInput, validateTags, `Хэштег должен начинаться с #. Максимальная длина хэштега ${MAX_LENGTH_HASHTAG} символов.`);
 pristine.addValidator(hashtagInput, validateTagCountHashtag, `Разрешено использовать не более ${MAX_COUNT_HASHTAGS} хэштегов.`);
@@ -91,12 +92,16 @@ const oncloselButtonClick = () => {
 
 const onFormSubmit = (evt) => {
 
+  evt.preventDefault();
   const isValid = pristine.validate();
-  if(!isValid){
-    evt.preventDefault();
+  if(isValid) {
+    const formData = new FormData(evt.target);
+    sendData(formData);
   }
 };
 
 fileField.addEventListener('change', onFileInputChange);
 cancelButtonRenderPicture.addEventListener('click', oncloselButtonClick);
 form.addEventListener('submit', onFormSubmit);
+
+export { hideForm };
