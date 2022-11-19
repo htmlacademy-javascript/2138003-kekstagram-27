@@ -1,7 +1,7 @@
 import { checkStringLength, isEscapeKey } from './util.js';
 import { resetScale } from './image-scale.js';
 import { resetEffects } from './effects.js';
-
+import { showSuccessMessage, showUploadErrorMessage } from './messages.js';
 const MAX_LENGTH_COMMENT = 140;
 const MAX_COUNT_HASHTAGS = 5;
 const MAX_LENGTH_HASHTAG = 20;
@@ -91,9 +91,29 @@ const oncloselButtonClick = () => {
 
 const onFormSubmit = (evt) => {
 
+  evt.preventDefault();
   const isValid = pristine.validate();
-  if(!isValid){
-    evt.preventDefault();
+  if(isValid) {
+    const formData = new FormData(evt.target);
+    fetch(
+      'https://27.javascript.pages.academy/kekstagram',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    ) .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`${response.status} ${response.statusText}`);
+    })
+      .then(() => {
+        showSuccessMessage();
+        hideForm();
+      })
+      .catch(() => {
+        showUploadErrorMessage();
+      });
   }
 };
 
