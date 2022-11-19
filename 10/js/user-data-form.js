@@ -1,7 +1,8 @@
 import { checkStringLength, isEscapeKey } from './util.js';
 import { resetScale } from './image-scale.js';
 import { resetEffects } from './effects.js';
-import { showSuccessMessage, showUploadErrorMessage } from './messages.js';
+import { sendData } from './api.js';
+
 const MAX_LENGTH_COMMENT = 140;
 const MAX_COUNT_HASHTAGS = 5;
 const MAX_LENGTH_HASHTAG = 20;
@@ -50,7 +51,7 @@ const validateTagCountHashtag = (value) => {
   return validateCountHashtag(hashtagsArray);
 };
 
-const validateComment = (value) => checkStringLength(value, MAX_LENGTH_HASHTAG);
+const validateComment = (value) => checkStringLength(value, MAX_LENGTH_COMMENT);
 
 pristine.addValidator(hashtagInput, validateTags, `Хэштег должен начинаться с #. Максимальная длина хэштега ${MAX_LENGTH_HASHTAG} символов.`);
 pristine.addValidator(hashtagInput, validateTagCountHashtag, `Разрешено использовать не более ${MAX_COUNT_HASHTAGS} хэштегов.`);
@@ -95,28 +96,12 @@ const onFormSubmit = (evt) => {
   const isValid = pristine.validate();
   if(isValid) {
     const formData = new FormData(evt.target);
-    fetch(
-      'https://27.javascript.pages.academy/kekstagram',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    ) .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(`${response.status} ${response.statusText}`);
-    })
-      .then(() => {
-        showSuccessMessage();
-        hideForm();
-      })
-      .catch(() => {
-        showUploadErrorMessage();
-      });
+    sendData(formData);
   }
 };
 
 fileField.addEventListener('change', onFileInputChange);
 cancelButtonRenderPicture.addEventListener('click', oncloselButtonClick);
 form.addEventListener('submit', onFormSubmit);
+
+export { hideForm };
