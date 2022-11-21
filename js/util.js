@@ -47,8 +47,38 @@ const createIdGenerator = () => {
   };
 };
 
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this,rest),timeoutDelay);
+  };
+};
+
+const comparePhotos = (photoA, photoB) => {
+  const commentA = photoA.comments.length;
+  const commentB = photoB.comments.length;
+  return commentB - commentA;
+};
+
+const sortingDiscussed = (photos) => photos.slice().sort(comparePhotos);
+
+const getRandomElementArray = (array) => array[getRandomNumber(0, array.length - 1)];
+const getRandomArray = (array, countElement) => {
+  if (array.length <= countElement) {
+    return array;
+  }
+
+  let resultArray = [];
+  while (resultArray.length !== countElement) {
+    resultArray.push(getRandomElementArray(array));
+    resultArray = Array.from(new Set(resultArray));
+  }
+  return resultArray;
+};
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const checkStringLength = (string, length) => string.length <= length;
 
-export {getRandomNumber, createRandomIdFromRangeGenerator, createIdGenerator, checkStringLength, isEscapeKey, showErrorAlert };
+export {getRandomNumber, createRandomIdFromRangeGenerator, createIdGenerator, checkStringLength, isEscapeKey, showErrorAlert, debounce, sortingDiscussed, getRandomArray };

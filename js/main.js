@@ -1,23 +1,19 @@
-import { similarImage } from './data.js';
-import { miniPhotos } from './thumbnail.js';
-import { renderBigPhoto } from './full-photo.js';
+import { renderMiniPhotos } from './thumbnail.js';
+import './full-photo.js';
 import './user-data-form.js';
 import './image-scale.js';
 import './effects.js';
 import { getData } from './api.js';
-import { showErrorAlert } from './util.js';
+import { showErrorAlert, debounce } from './util.js';
+import { setFilterClick } from './filters.js';
 
-const createImage = similarImage();
-
-// miniPhotos(createImage);
+const RERENDER_DELAY = 500;
 
 getData((data) => {
-  miniPhotos(data);
+  renderMiniPhotos(data);
+  setFilterClick(data, debounce(renderMiniPhotos, RERENDER_DELAY));
 },
-
 () => {
   showErrorAlert('Не удалось загрузить изображения.');
 }
 );
-
-renderBigPhoto(createImage[1]);
