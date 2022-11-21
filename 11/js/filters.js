@@ -1,7 +1,7 @@
-const filterForm = document.querySelector('.img-filters__form');
-const defaultButton = filterForm.querySelector('#filter-default');
-const randomButton = filterForm.querySelector('#filter-random');
-const discussedButton = filterForm.querySelector('#filter-discussed');
+import { sortingDiscussed, getRandomArray } from './util.js';
+
+const filterForm = document.querySelector('.img-filters');
+const COUNT_RANDOM_PHOTO = 10;
 
 const toggleFilter = (choosen) => {
   const currentFilter = document.querySelector('.img-filters__button--active');
@@ -9,25 +9,25 @@ const toggleFilter = (choosen) => {
   choosen.classList.add('img-filters__button--active');
 };
 
-const setDefaultPhotosClick = (callback) => {
-  defaultButton.addEventListener('click', (evt) => {
-    toggleFilter(evt.target);
-    callback();
+const setFilterClick = (data, cb) => {
+  filterForm.addEventListener('click', (evt) => {
+    switch (evt.target.id) {
+      case 'filter-random':
+        toggleFilter(evt.target);
+        cb(getRandomArray(data, COUNT_RANDOM_PHOTO));
+        break;
+
+      case 'filter-discussed':
+        toggleFilter(evt.target);
+        cb(sortingDiscussed(data));
+        break;
+
+      case 'filter-default':
+        toggleFilter(evt.target);
+        cb(data);
+        break;
+    }
   });
 };
 
-const setRandomPhotosClick = (callback) => {
-  randomButton.addEventListener('click', (evt) => {
-    toggleFilter(evt.target);
-    callback();
-  });
-};
-
-const setDiscussedPhotoClick = (callback) => {
-  discussedButton.addEventListener('click', (evt) => {
-    toggleFilter(evt.target);
-    callback();
-  });
-};
-
-export { setDefaultPhotosClick, setRandomPhotosClick, setDiscussedPhotoClick };
+export { setFilterClick };
