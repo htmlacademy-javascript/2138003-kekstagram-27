@@ -1,10 +1,18 @@
 const pictureContainers = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content;
+const imageFilters = document.querySelector('.img-filters');
 
 
-const miniPhotos = (thumbnails) => {
+const clearPhotos = () => {
+  const pictures = document.querySelectorAll('.picture');
+  if (pictures.length > 0) {
+    pictures.forEach((picture) => picture.remove());
+  }
+};
+
+const renderMiniPhotos = (thumbnails) => {
   const pictureListFragment = document.createDocumentFragment();
-
+  clearPhotos();
   thumbnails.forEach(({url,likes,comments}) => {
 
     const thumbnailsPicture = pictureTemplate.cloneNode(true);
@@ -14,6 +22,7 @@ const miniPhotos = (thumbnails) => {
     pictureListFragment.appendChild(thumbnailsPicture);
   });
   pictureContainers.appendChild(pictureListFragment);
+  imageFilters.classList.remove('img-filters--inactive');
 };
 
-export {miniPhotos};
+export {renderMiniPhotos};
