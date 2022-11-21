@@ -55,17 +55,6 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-const throttle = (callback, delayBetweenFrames) => {
-  let lastTime = 0;
-  return (...rest) => {
-    const now = new Date();
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
-    }
-  };
-};
-
 const comparePhotos = (photoA, photoB) => {
   const commentA = photoA.comments.length;
   const commentB = photoB.comments.length;
@@ -92,4 +81,4 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const checkStringLength = (string, length) => string.length <= length;
 
-export {getRandomNumber, createRandomIdFromRangeGenerator, createIdGenerator, checkStringLength, isEscapeKey, showErrorAlert, debounce, sortingDiscussed, getRandomArray, throttle };
+export {getRandomNumber, createRandomIdFromRangeGenerator, createIdGenerator, checkStringLength, isEscapeKey, showErrorAlert, debounce, sortingDiscussed, getRandomArray };
