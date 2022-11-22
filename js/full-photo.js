@@ -1,15 +1,15 @@
 import { isEscapeKey } from './util.js';
 
 const ONE_STEP = 5;
+const START_CYCLE_FOR_COMMENT = 0;
 let uploadMaximumComment = ONE_STEP;
 let buttonMaximumComment = ONE_STEP;
-const START_CYCLE_FOR_COMMENT = 0;
 const body = document.querySelector('body');
 const bigPicture = document.querySelector('.big-picture');
 const bigPreview = document.querySelector('.big-picture__img').querySelector('img');
 const bigLikes = bigPicture.querySelector('.likes-count');
 const selectorComments = bigPicture.querySelector('.social__comments');
-const liComments = bigPicture.querySelector('.social__comment');
+const commentTemplate = bigPicture.querySelector('.social__comment');
 const bigComments = bigPicture.querySelector('.comments-count');
 const bigDescription = bigPicture.querySelector('.social__caption');
 const commentCount = bigPicture.querySelector('.social__comment-count');
@@ -27,7 +27,7 @@ const hiddenUploadComment = () => {
 const createComment = (nameComment, startIndex, endIndex) => {
   const commentListFragment = document.createDocumentFragment();
   for(let i = startIndex; i < endIndex; i++){
-    const newComment = liComments.cloneNode(true);
+    const newComment = commentTemplate.cloneNode(true);
     const imgComments = newComment.querySelector('.social__picture');
     const textComments = newComment.querySelector('.social__text');
 
@@ -68,6 +68,7 @@ const renderBigPhoto = (picture) =>{
     spanComment.textContent = numberCurrentComment + ONE_STEP;
     hiddenUploadComment();
   };
+
   buttonLoader.addEventListener('click', onClickUploadCommnent);
 
   const closeBigPhoto = () => {
@@ -79,9 +80,11 @@ const renderBigPhoto = (picture) =>{
     spanComment.textContent = ONE_STEP;
     buttonLoader.classList.remove('hidden');
   };
+
   cancelButtonBigPhoto.addEventListener('click', () => {
     closeBigPhoto();
   });
+
   document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
       closeBigPhoto();
@@ -89,4 +92,4 @@ const renderBigPhoto = (picture) =>{
   });
 };
 
-export {renderBigPhoto};
+export { renderBigPhoto };

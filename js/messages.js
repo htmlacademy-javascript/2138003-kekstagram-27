@@ -36,7 +36,6 @@ const showSuccessMessage = () => {
 const showUploadErrorMessage = () => {
   const message = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
   const button = message.querySelector('.error__button');
-
   showMessage(message, button);
 };
 
