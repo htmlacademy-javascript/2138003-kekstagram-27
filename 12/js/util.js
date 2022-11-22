@@ -25,28 +25,6 @@ const getRandomNumber = (min, max) => {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
-const createRandomIdFromRangeGenerator = (min, max) => {
-  const previousValues = [];
-
-  return function () {
-    let currentValue = getRandomNumber(min, max);
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomNumber(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-};
-
-const createIdGenerator = () => {
-  let lastGeneratedId = 0;
-
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-};
-
 const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
   return (...rest) => {
@@ -81,4 +59,4 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const checkStringLength = (string, length) => string.length <= length;
 
-export {getRandomNumber, createRandomIdFromRangeGenerator, createIdGenerator, checkStringLength, isEscapeKey, showErrorAlert, debounce, sortingDiscussed, getRandomArray };
+export { checkStringLength, isEscapeKey, showErrorAlert, debounce, sortingDiscussed, getRandomArray };
