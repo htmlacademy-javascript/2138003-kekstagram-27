@@ -6,12 +6,15 @@ import { sendData } from './api.js';
 const MAX_LENGTH_COMMENT = 140;
 const MAX_COUNT_HASHTAGS = 5;
 const MAX_LENGTH_HASHTAG = 20;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('#upload-select-image');
 const fileField = document.querySelector('#upload-file');
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
 const form = document.querySelector('.img-upload__form');
+const filePreview = form.querySelector('.img-upload__preview img');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const cancelButtonRenderPicture = form.querySelector('#upload-cancel');
 const simbolHashtag = /^#[A-Za-zА-яа-яЁё0-9]{1,19}$/;
@@ -84,6 +87,15 @@ const showForm = () => {
 
 const onFileInputChange = () => {
   showForm();
+  const file = fileField.files[0];
+  const fileName = file.name.toLowerCase();
+
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    filePreview.src = URL.createObjectURL(file);
+  }
 };
 
 const oncloselButtonClick = () => {

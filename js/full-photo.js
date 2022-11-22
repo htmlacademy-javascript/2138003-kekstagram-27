@@ -1,7 +1,6 @@
 import { isEscapeKey } from './util.js';
 
-let initialMaximumComment = 5;
-let buttonMaximumComment = 5;
+
 const ONE_STEP = 5;
 const START_CYCLE_FOR_COMMENT = 0;
 const body = document.querySelector('body');
@@ -19,10 +18,15 @@ const cancelButtonBigPhoto = bigPicture.querySelector('.big-picture__cancel');
 const numberCurrentComment = parseInt(spanComment.textContent, Number);
 const commentListFragment = document.createDocumentFragment();
 
+let buttonMaximumComment = 5;
+
 const hidden = () => {
   if(parseInt(bigComments.firstChild.textContent, Number) <= parseInt(spanComment.textContent, Number) ){
     spanComment.textContent = bigComments.lastChild.textContent;
     buttonLoader.classList.add('hidden');
+  } else {
+    spanComment.textContent = 5;
+    buttonLoader.classList.remove('hidden');
   }
 };
 
@@ -40,8 +44,8 @@ const createComment = (nameComment, startIndex, endIndex) => {
 };
 
 const renderBigPhoto = (picture) =>{
-  // bigPicture.classList.remove('hidden');
-  // body.classList.add('modal-open');
+  bigPicture.classList.remove('hidden');
+  body.classList.add('modal-open');
   selectorComments.innerHTML = '';
 
   bigPreview.src = picture.url;
@@ -51,10 +55,14 @@ const renderBigPhoto = (picture) =>{
 
   hidden();
 
-  if(bigComments.textContent < ONE_STEP){
-    initialMaximumComment = bigComments.textContent;
-  }
-  createComment(picture, START_CYCLE_FOR_COMMENT, initialMaximumComment);
+  const xx = () => {
+    let initialMaximumComment = 5;
+    if(bigComments.textContent < ONE_STEP){
+      initialMaximumComment = bigComments.textContent;
+    }
+    createComment(picture, START_CYCLE_FOR_COMMENT, initialMaximumComment);
+  };
+  xx();
   selectorComments.innerHTML = '';
   selectorComments.append(commentListFragment);
 
@@ -70,18 +78,19 @@ const renderBigPhoto = (picture) =>{
     hidden();
   };
   buttonLoader.addEventListener('click', onClickUploadCommnent);
-};
-
-cancelButtonBigPhoto.addEventListener('click', () => {
-  bigPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
-});
-
-document.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
+  cancelButtonBigPhoto.addEventListener('click', () => {
     bigPicture.classList.add('hidden');
     body.classList.remove('modal-open');
-  }
-});
+    buttonMaximumComment = 5;
+  });
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      bigPicture.classList.add('hidden');
+      body.classList.remove('modal-open');
+      buttonMaximumComment = 5;
+    }
+  });
+};
 
 export {renderBigPhoto};
