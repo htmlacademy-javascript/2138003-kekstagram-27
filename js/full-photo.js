@@ -68,6 +68,7 @@ const renderBigPhoto = (picture) =>{
     spanComment.textContent = numberCurrentComment + ONE_STEP;
     hiddenUploadComment();
   };
+
   buttonLoader.addEventListener('click', onUploadComment);
 
   const onPopupEscKeydown = (evt) => {
