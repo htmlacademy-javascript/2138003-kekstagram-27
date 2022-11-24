@@ -3,28 +3,28 @@ import {isEscapeKey} from './util.js';
 const showMessage = (message, button) => {
   document.body.append(message);
 
-  const close = () => {
+  const closeMessage = () => {
     message.remove();
-    window.removeEventListener('keydown', onMessagelEscDown);
+    window.removeEventListener('keydown', onMessageEscKeyDown);
   };
 
   button.addEventListener('click', () => {
-    close();
+    closeMessage();
   });
 
   message.addEventListener('click', (evt) => {
     if(evt.target === message){
-      close();
+      closeMessage();
     }
   });
 
-  function onMessagelEscDown(evt) {
+  function onMessageEscKeyDown(evt) {
     if(isEscapeKey(evt)) {
       evt.preventDefault();
-      close();
+      closeMessage();
     }
   }
-  window.addEventListener('keydown', onMessagelEscDown);
+  window.addEventListener('keydown', onMessageEscKeyDown);
 };
 
 const showSuccessMessage = () => {
