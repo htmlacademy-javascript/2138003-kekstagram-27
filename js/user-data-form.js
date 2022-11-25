@@ -17,8 +17,8 @@ const form = document.querySelector('.img-upload__form');
 const filePreview = form.querySelector('.img-upload__preview img');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const cancelButtonRenderPicture = form.querySelector('#upload-cancel');
-const simbolHashtag = /^#[A-Za-zА-яа-яЁё0-9]{1,19}$/;
-const validHashtag = (hashtag) => simbolHashtag.test(hashtag);
+const symbolHashtag = /^#[A-Za-zА-яа-яЁё0-9]{1,19}$/;
+const isValidHashtag = (hashtag) => symbolHashtag.test(hashtag);
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -31,7 +31,7 @@ const pristine = new Pristine(form, {
 
 const validateSymbolsHashtag = (value) => {
   const hashtagsArray = value.trim().split(' ');
-  return hashtagsArray.every(validHashtag);
+  return hashtagsArray.every(isValidHashtag);
 };
 
 const validateDoubleHashtag = (value) => {
@@ -89,8 +89,6 @@ const onFileInputChange = () => {
   showForm();
   const file = fileField.files[0];
   const fileName = file.name.toLowerCase();
-
-
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
@@ -98,7 +96,7 @@ const onFileInputChange = () => {
   }
 };
 
-const oncloselButtonClick = () => {
+const onCloseButton = () => {
   hideForm ();
 };
 
@@ -113,7 +111,7 @@ const onFormSubmit = (evt) => {
 };
 
 fileField.addEventListener('change', onFileInputChange);
-cancelButtonRenderPicture.addEventListener('click', oncloselButtonClick);
+cancelButtonRenderPicture.addEventListener('click', onCloseButton);
 form.addEventListener('submit', onFormSubmit);
 
 export { hideForm };

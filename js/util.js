@@ -47,12 +47,12 @@ const getRandomArray = (array, countElement) => {
     return array;
   }
 
-  let resultArray = [];
-  while (resultArray.length !== countElement) {
-    resultArray.push(getRandomElementArray(array));
-    resultArray = Array.from(new Set(resultArray));
+  let results = [];
+  while (results.length !== countElement) {
+    results.push(getRandomElementArray(array));
+    results = Array.from(new Set(results));
   }
-  return resultArray;
+  return results;
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
