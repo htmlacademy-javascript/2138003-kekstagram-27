@@ -57,7 +57,7 @@ const renderBigPhoto = (picture) =>{
 
   selectorComments.append(createComment(picture, START_CYCLE_FOR_COMMENT, uploadMaximumComment));
 
-  const onUploadComment = (evt) => {
+  const uploadComment = (evt) => {
     evt.preventDefault();
     const numberCurrentComment = parseInt(spanComment.textContent, Number);
     if(bigComments.textContent - spanComment.textContent < ONE_STEP){
@@ -69,7 +69,9 @@ const renderBigPhoto = (picture) =>{
     hiddenUploadComment();
   };
 
-  buttonLoader.addEventListener('click', onUploadComment);
+  const onButtonLoaderClick = (evt) => uploadComment(evt);
+
+  buttonLoader.addEventListener('click', onButtonLoaderClick);
 
   const onPopupEscKeydown = (evt) => {
     if (isEscapeKey(evt)) {
@@ -80,14 +82,14 @@ const renderBigPhoto = (picture) =>{
 
   document.addEventListener('keydown', onPopupEscKeydown);
 
-  cancelButtonBigPhoto.addEventListener('click', () => {
-    closeBigPhoto();
-  });
+  const onPopupCloseClick = () => closeBigPhoto();
+
+  cancelButtonBigPhoto.addEventListener('click', onPopupCloseClick);
 
   function closeBigPhoto () {
-    buttonLoader.removeEventListener('click', onUploadComment);
+    buttonLoader.removeEventListener('click', onButtonLoaderClick);
     document.removeEventListener('keydown', onPopupEscKeydown);
-    cancelButtonBigPhoto.removeEventListener('click', onUploadComment);
+    cancelButtonBigPhoto.removeEventListener('click', onPopupCloseClick);
     bigPicture.classList.add('hidden');
     body.classList.remove('modal-open');
     buttonMaximumComment = ONE_STEP;
